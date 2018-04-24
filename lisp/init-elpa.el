@@ -30,9 +30,7 @@
 ;; We include the org repository for completeness, but don't normally
 ;; use it.
 (add-to-list 'package-archives 
-              '("org" . "http://orgmode.org/elpa/"))
-
-;;;; ????
+             '("org" . "http://orgmode.org/elpa/"))
 
 
 (defconst sanityinc/no-ssl (and (memq system-type '(windows-nt ms-dos))
@@ -102,6 +100,12 @@ locate PACKAGE."
 
 (require-package 'cl-lib)
 (require 'cl-lib)
+
+(require-package 'use-package)
+(require 'use-package)
+
+(require-package 'lsp-mode)
+(require 'lsp-mode)
 
 (defun sanityinc/set-tabulated-list-column-width (col-name width)
   "Set any column with name COL-NAME to the given WIDTH."

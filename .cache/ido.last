@@ -1,0 +1,49 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/home/zayafa/workspace/ArtistNest/front/templates/" . "home/")
+ ("/home/zayafa/workspace/ArtistNest/front/" . "templates/")
+ ("/home/zayafa/workspace/" . "ArtistNest/")
+ ("/home/zayafa/" . "workspace/")
+ ("/home/" . "zayafa/")
+ ("/" . "home/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/tmp/test.rs/"
+ "/home/zayafa/workspace/ArtistNest/artistnest/home/"
+ "/home/zayafa/workspace/ArtistNest/front/templates/home/"
+ "/home/zayafa/workspace/ArtistNest/"
+ "/tmp/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ 
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/tmp/" (23246 47014 113270 682000) "systemd-private-6c03a63538d241a9a9488615fd5f823f-bolt.service-sfEkf4/" "dropbox-antifreeze-Z24jEN" "systemd-private-6c03a63538d241a9a9488615fd5f823f-fwupd.service-1bixfJ/" "systemd-private-6c03a63538d241a9a9488615fd5f823f-systemd-resolved.service-1mLdOj/" "dropbox-antifreeze-sj5UOP" ".font-unix/" ".X11-unix/" "systemd-private-6c03a63538d241a9a9488615fd5f823f-rtkit-daemon.service-eJL8uS/" ".dropbox-dist-new-FvtzGJ/" ".ICE-unix/" "config-err-criA6T" ".com.google.Chrome.OAcCL0/" "systemd-private-6c03a63538d241a9a9488615fd5f823f-systemd-timesyncd.service-gXkQQe/" "systemd-private-6c03a63538d241a9a9488615fd5f823f-colord.service-7ucpqH/" "ssh-PJSIltmEkcue/" "dropbox-antifreeze-DUsbo1" "snap.0_canonical-livepatch_B2uUJa/" ".Test-unix/" ".XIM-unix/" "rime.ibus.p50.zayafa.log.INFO.20180412-092412.3306" "emacs1000/" "pulse-PKdhtXMmr18n/" "VMwareDnD/" "rime.ibus.INFO" "dropbox-antifreeze-OjJ7JQ" "vmware-root/" "../" "./")
+
+ ("/home/zayafa/" (23246 46798 860763 830000) ".cache/" "Steam/" ".node-gyp/" ".npminstall_tarball/" ".zsh-update" ".steam/" "Public/" "Pictures/" ".zcompdump-p50-5.2" ".steampath" "../" ".zcompdump" ".config/" ".oh-my-zsh/" ".ICEauthority" ".v8flags.6.2.414.46-node.23.5798206ca1fcc030f3e2f530ac68dc6a.json" ".pki/" ".mozilla/" "workspace/" "Music/" ".steampid" ".gnupg/" ".ilg-config" ".clusterssh/" ".Xauthority" "Downloads/" ".vscode/" ".z" ".dropbox/" ".emacs.d/" ".node_repl_history" ".ew.json" ".zsh_history" "snap/" ".ssh/" "Documents/" ".vmware/" ".local/" ".remarkable/" "Dropbox/" ".spacemacs" "Videos/" ".gimp-2.8/" ".xinputrc" ".gnome/" ".python_history" ".cargo/" "Templates/" ".bash_history" ".thunderbird/" "examples.desktop" ".pulse-cookie" ".electron/" ".pam_environment" ".remmina/" ".multirust/" ".zcompdump-p50-5.4.2" ".bash_logout" ".RapidSVN" ".subversion/" "emacs.d/" ".zshrc" ".nv/" "./" ".dropbox-dist/" ".zprofile" ".bashrc" ".sudo_as_admin_successful" ".nvm/" ".xsession-errors" ".gconf/" ".npm/" ".profile" "Desktop/" ".insert-shebang.log" ".rustup/" ".viminfo")
+
+ ("/home/zayafa/workspace/ArtistNest/artistnest/home/" (23234 5516 367966 855000) "../" "views.py" "static/" "__init__.py" ".#views.py" "./" "templates/" "__pycache__/")
+
+ ("/home/zayafa/workspace/ArtistNest/front/templates/home/" (23232 54416 195260 94000) "../" "home.html" "./")
+
+ ("/home/zayafa/workspace/ArtistNest/front/templates/" (23232 54416 195260 94000) "../" "home/" "./")
+
+ ("/home/zayafa/workspace/ArtistNest/front/" (23232 56034 458205 41000) "tsconfig.json" "../" "package.json" "package-lock.json" "static/" "./" "templates/")
+
+ ("/home/zayafa/workspace/ArtistNest/" (23232 64298 31975 647000) "artistnest/" "../" "README.md" ".vscode/" ".git/" "run.pyc" "boot.sh" "./" "run.py" ".gitignore" "requirements.txt" "venv/" "front/" "__pycache__/")
+
+ ("/home/zayafa/workspace/" (23232 64600 757682 704000) "../" "test.cpp" "./" "ArtistNest/")
+
+ ("/home/" (23232 36339 100316 227000) "../" "linuxbrew/" "./" "zayafa/")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

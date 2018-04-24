@@ -1,0 +1,60 @@
+;;; -*- coding: utf-8 -*-
+(("/home/zayafa/workspace/Algo/src/heap/max_heap.rs" . 159)
+ ("/home/zayafa/.emacs.d/.cache/recentf" . 1316)
+ ("/home/zayafa/.emacs.d/.cache/layouts/persp-auto-save" . 1503)
+ ("/home/zayafa/rust.rs" . 610)
+ ("/home/zayafa/workspace/Algo/src/_common_models/common.hpp" . 901)
+ ("/home/zayafa/workspace/wangEditor/example/editor.js" . 1979)
+ ("/home/zayafa/workspace/wangEditor/"
+  (dired-filename . "/home/zayafa/workspace/wangEditor/example"))
+ ("/home/zayafa/workspace/wangEditor/example/"
+  (dired-filename . "/home/zayafa/workspace/wangEditor/example/index.html"))
+ ("/home/zayafa/workspace/wangEditor/example/index.html" . 449)
+ ("/home/zayafa/Downloads/VMware-Player-14.1.1-7528167.x86_64.bundle" . 761255)
+ ("/home/zayafa/workspace/ArtistNest/front/package.json" . 394)
+ ("/home/zayafa/workspace/ArtistNest/artistnest/home/views.py" . 431)
+ ("/home/zayafa/workspace/ArtistNest/artistnest/home/"
+  (dired-filename . "/home/zayafa/workspace/ArtistNest/artistnest/home/.."))
+ ("/home/zayafa/workspace/ArtistNest/artistnest/"
+  (dired-filename . "/home/zayafa/workspace/ArtistNest/artistnest/.."))
+ ("/home/zayafa/workspace/ArtistNest/"
+  (dired-filename . "/home/zayafa/workspace/ArtistNest/.."))
+ ("/home/zayafa/workspace/"
+  (dired-filename . "/home/zayafa/workspace/.."))
+ ("/home/zayafa/"
+  (dired-filename . "/home/zayafa/Downloads"))
+ ("/home/zayafa/Downloads/"
+  (dired-filename . "/home/zayafa/Downloads/zTree_v3"))
+ ("/home/zayafa/Downloads/zTree_v3/"
+  (dired-filename . "/home/zayafa/Downloads/zTree_v3/demo"))
+ ("/home/zayafa/Downloads/zTree_v3/demo/"
+  (dired-filename . "/home/zayafa/Downloads/zTree_v3/demo/cn"))
+ ("/home/zayafa/Downloads/zTree_v3/demo/cn/core/"
+  (dired-filename . "/home/zayafa/Downloads/zTree_v3/demo/cn/core/.."))
+ ("/home/zayafa/Downloads/zTree_v3/demo/cn/"
+  (dired-filename . "/home/zayafa/Downloads/zTree_v3/demo/cn/excheck"))
+ ("/home/zayafa/Downloads/zTree_v3/demo/cn/excheck/"
+  (dired-filename . "/home/zayafa/Downloads/zTree_v3/demo/cn/excheck/checkbox.html"))
+ ("/home/zayafa/Downloads/zTree_v3/demo/cn/excheck/checkbox.html" . 757)
+ ("/home/zayafa/workspace/ArtistNest/front/"
+  (dired-filename . "/home/zayafa/workspace/ArtistNest/front/static"))
+ ("/home/zayafa/workspace/ArtistNest/front/static/"
+  (dired-filename . "/home/zayafa/workspace/ArtistNest/front/static/js"))
+ ("/home/zayafa/workspace/ArtistNest/front/static/js/"
+  (dired-filename . "/home/zayafa/workspace/ArtistNest/front/static/js/home"))
+ ("/home/zayafa/workspace/ArtistNest/front/static/js/home/home.ts" . 89)
+ ("/home/zayafa/workspace/ArtistNest/front/templates/home/"
+  (dired-filename . "/home/zayafa/workspace/ArtistNest/front/templates/home/home.html"))
+ ("/home/zayafa/workspace/ArtistNest/front/templates/home/home.html" . 41)
+ ("/home/zayafa/.emacs.d/"
+  (dired-filename . "/home/zayafa/.emacs.d/vendor"))
+ ("/home/zayafa/.emacs.d/vendor/"
+  (dired-filename . "/home/zayafa/.emacs.d/vendor/.."))
+ ("/home/zayafa/.emacs.d/vendor/ycmd/ycmd/"
+  (dired-filename . "/home/zayafa/.emacs.d/vendor/ycmd/ycmd/.."))
+ ("/home/zayafa/.emacs.d/vendor/ycmd/"
+  (dired-filename . "/home/zayafa/.emacs.d/vendor/ycmd/cpp"))
+ ("/home/zayafa/.emacs.d/vendor/ycmd/cpp/"
+  (dired-filename . "/home/zayafa/.emacs.d/vendor/ycmd/cpp/ycm"))
+ ("/home/zayafa/.emacs.d/vendor/ycmd/cpp/ycm/" . 2173)
+ ("/home/zayafa/.spacemacs" . 16864))

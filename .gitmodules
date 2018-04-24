@@ -1,3 +1,6 @@
 [submodule "vendor/ycmd"]
 	path = vendor/ycmd
 	url = https://github.com/Valloric/ycmd.git
+[submodule "vendor/cquery"]
+	path = vendor/cquery
+	url = https://github.com/cquery-project/cquery.git
