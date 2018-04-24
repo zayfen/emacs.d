@@ -47,7 +47,7 @@
 (require 'lsp-ui)
 (require 'company-lsp)
 
-(setq cquery-executable "/home/zayafa/.emacs.d/vendor/cquery/build/release/bin/cquery")
+(setq cquery-executable "/usr/local/bin/cquery")
 ;; ;; Arch Linux aur/cquery-git aur/cquery
 ;; (setq cquery-executable "/usr/bin/cquery")
 
@@ -66,6 +66,14 @@
 (defun cquery//enable ()
   (condition-case nil
       (lsp-cquery-enable)
+    (cquery-xref-find-custom "$cquery/base")
+    (cquery-xref-find-custom "$cquery/callers")
+    (cquery-xref-find-custom "$cquery/derived")
+    (cquery-xref-find-custom "$cquery/vars")
+    ;; Alternatively, use lsp-ui-peek interface
+    (lsp-ui-peek-find-custom 'base "$cquery/base")
+    (lsp-ui-peek-find-custom 'callers "$cquery/callers")
+    (lsp-ui-peek-find-custom 'random "$cquery/random") ;; jump to a random declaration
     (user-error nil)))
 
 (use-package cquery
@@ -75,15 +83,6 @@
 (add-hook 'c-mode-common-hook #'cquery//enable)
 
 (setq cquery-extra-init-params '(:index (:comments 2) :cacheFormat "msgpack" :completion (:detailedLabel t)))
-;;(cquery-xref-find-custom "$cquery/base")
-;;(cquery-xref-find-custom "$cquery/callers")
-;;(cquery-xref-find-custom "$cquery/derived")
-;;(cquery-xref-find-custom "$cquery/vars")
-
-;; Alternatively, use lsp-ui-peek interface
-;;(lsp-ui-peek-find-custom 'base "$cquery/base")
-;;(lsp-ui-peek-find-custom 'callers "$cquery/callers")
-;;(lsp-ui-peek-find-custom 'random "$cquery/random") ;; jump to a random declaration
 
 ;; lsp-ui-doc.el renders comments in a child frame (Emacs >= 26) or inline (< 26).
 ;; (setq lsp-ui-doc-include-signature nil)  ; don't include type signature in the child frame
