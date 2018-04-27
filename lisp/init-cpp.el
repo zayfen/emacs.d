@@ -38,13 +38,11 @@
 (require-package 'ggtags)
 (require-package 'cpputils-cmake)
 (require-package 'cquery)
-(require-package 'lsp-ui)
 (require-package 'company-lsp)
 (require-package 'helm-xref)
 (require-package 'function-args)
 
 (require 'cquery)
-(require 'lsp-ui)
 (require 'company-lsp)
 
 (setq cquery-executable "/usr/local/bin/cquery")
@@ -58,27 +56,27 @@
 ;; ;; Initialization options
 ;; (setq cquery-extra-init-params '(:cacheFormat "msgpack"))
 (with-eval-after-load 'projectile
-  (setq projectile-project-root-files-top-down-recurring
-        (append '("compile_commands.json"
-                  ".cquery")
-                projectile-project-root-files-top-down-recurring)))
+	(setq projectile-project-root-files-top-down-recurring
+				(append '("compile_commands.json"
+									".cquery")
+								projectile-project-root-files-top-down-recurring)))
 
 (defun cquery//enable ()
-  (condition-case nil
-      (lsp-cquery-enable)
-    (cquery-xref-find-custom "$cquery/base")
-    (cquery-xref-find-custom "$cquery/callers")
-    (cquery-xref-find-custom "$cquery/derived")
-    (cquery-xref-find-custom "$cquery/vars")
-    ;; Alternatively, use lsp-ui-peek interface
-    (lsp-ui-peek-find-custom 'base "$cquery/base")
-    (lsp-ui-peek-find-custom 'callers "$cquery/callers")
-    (lsp-ui-peek-find-custom 'random "$cquery/random") ;; jump to a random declaration
-    (user-error nil)))
+	(condition-case nil
+			(lsp-cquery-enable)
+		(cquery-xref-find-custom "$cquery/base")
+		(cquery-xref-find-custom "$cquery/callers")
+		(cquery-xref-find-custom "$cquery/derived")
+		(cquery-xref-find-custom "$cquery/vars")
+		;; Alternatively, use lsp-ui-peek interface
+		(lsp-ui-peek-find-custom 'base "$cquery/base")
+		(lsp-ui-peek-find-custom 'callers "$cquery/callers")
+		(lsp-ui-peek-find-custom 'random "$cquery/random") ;; jump to a random declaration
+		(user-error nil)))
 
 (use-package cquery
-             :commands lsp-cquery-enable
-             :init (add-hook 'c-mode-common-hook #'cquery//enable))
+						 :commands lsp-cquery-enable
+						 :init (add-hook 'c-mode-common-hook #'cquery//enable))
 
 (add-hook 'c-mode-common-hook #'cquery//enable)
 

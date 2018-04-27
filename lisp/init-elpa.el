@@ -62,7 +62,7 @@
   "Install given PACKAGE, optionally requiring MIN-VERSION.
 If NO-REFRESH is non-nil, the available package lists will not be
 re-downloaded in order to locate PACKAGE."
-  (if (package-installed-p package min-version)
+  (if (or (package-installed-p package min-version) 1)  ;; fixme: here is (if (package-installed-p package min-version)
       t
     (if (or (assoc package package-archive-contents) no-refresh)
         (if (boundp 'package-selected-packages)
@@ -106,6 +106,9 @@ locate PACKAGE."
 
 (require-package 'lsp-mode)
 (require 'lsp-mode)
+
+(require-package 'lsp-ui)
+(require 'lsp-ui)
 
 (defun sanityinc/set-tabulated-list-column-width (col-name width)
   "Set any column with name COL-NAME to the given WIDTH."
