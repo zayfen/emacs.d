@@ -4,7 +4,7 @@
 
 ;; Author:            Adam Sokolnicki <adam.sokolnicki@gmail.com>
 ;; URL:               https://github.com/asok/projectile-rails
-;; Package-Version: 20180327.433
+;; Package-Version: 20180618.804
 ;; Version:           0.15.0
 ;; Keywords:          rails, projectile
 ;; Package-Requires:  ((emacs "24.3") (projectile "0.12.0") (inflections "1.1") (inf-ruby "2.2.6") (f "0.13.0") (rake "0.3.2"))
@@ -873,7 +873,9 @@ This only works when yas package is installed."
              (fboundp 'yas-expand-snippet)
              (and (buffer-file-name) (not (file-exists-p (buffer-file-name))))
              (s-blank? (buffer-string))
-             (projectile-rails-expand-corresponding-snippet))))
+             (projectile-rails-expand-corresponding-snippet)
+             (let ((inhibit-message t))
+               (indent-region (point-min) (point-max))))))
 
 (defun projectile-rails--snippet-for-module (last-part name)
   "Return snippet as string for a file that holds a module."
@@ -1130,7 +1132,7 @@ DIRS are directories where to look for assets."
          (projectile-rails-sanitize-name (thing-at-point 'filename))))
     (projectile-rails-ff
      (loop for dir in dirs
-           for re = (s-lex-format "${dir}${name}\\..+$")
+           for re = (s-lex-format "${dir}${name}\\(\\..+\\)*$")
            for files = (projectile-dir-files (projectile-rails-expand-root dir))
            for file = (--first (string-match-p re it) files)
            until file
@@ -1558,10 +1560,12 @@ If file does not exist and ASK in not nil it will ask user to proceed."
   :init-value nil
   :lighter " Rails"
   (when projectile-rails-mode
-    (and projectile-rails-expand-snippet (projectile-rails-expand-snippet-maybe))
     (and projectile-rails-add-keywords (projectile-rails-add-keywords-for-file-type))
     (projectile-rails-set-assets-dirs)
     (projectile-rails-set-fixture-dirs)))
+
+(dolist (mode '(ruby-mode-hook enh-ruby-mode-hook))
+  (add-hook mode #'projectile-rails-expand-snippet-maybe))
 
 ;;;###autoload
 (defun projectile-rails-on ()
