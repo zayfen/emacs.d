@@ -11,6 +11,7 @@
   (message "Your Emacs is old, and some functionality in this config will be disabled. Please upgrade if possible."))
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
 (require 'init-benchmarking) ;; Measure startup time
 
 (defconst *spell-check-support-enabled* nil) ;; Enable with t if you prefer
@@ -110,6 +111,7 @@
 (require 'init-yaml)
 (require 'init-docker)
 (require 'init-terraform)
+(require 'init-vue)
 ;;(require 'init-nix)
 (maybe-require-package 'nginx-mode)
 
@@ -146,9 +148,10 @@
   (maybe-require-package 'daemons))
 (maybe-require-package 'dotenv-mode)
 
-(when (maybe-require-package 'uptimes)
-  (setq-default uptimes-keep-count 200)
-  (add-hook 'after-init-hook (lambda () (require 'uptimes))))
+;; parse uptimes error occured
+;;(when (maybe-require-package 'uptimes)
+;;  (setq-default uptimes-keep-count 200)
+;;  (add-hook 'after-init-hook (lambda () (require 'uptimes))))
 
 
 ;;----------------------------------------------------------------------------

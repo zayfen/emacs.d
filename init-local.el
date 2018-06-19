@@ -23,5 +23,6 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Noto Mono" :foundry "GOOG" :slant normal :weight normal :height 151 :width normal)))))
 
+(setq-default tab-width 2)
 
 (provide 'init-local)

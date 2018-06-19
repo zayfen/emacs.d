@@ -1,9 +1,52 @@
+;; (maybe-require-package 'json-mode)
+
+;; (maybe-require-package 'js3-mode)
+
+;; (maybe-require-package 'js2-mode)
+
+;; ;;;;;;;;;;;;; No longer use javascript config above ;;;;;;;;;;;;;;;;;;;;
+
+;; ;; enabling lsp-javascript-typescript
+;; (require 'lsp-javascript-typescript)
+
+;; ;;(add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
+;; ;;(add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable) ;; for typescript support
+;; (add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
+
+;; ;;(add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
+;; (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable) ;; for rjsx-mode support
+
+;; ;; NOTE: javascript-typescript-langserver doesn't take into account the completion prefix,
+;; ;; which causes some glitchy completion when using company.
+;; ;; lsp-javascript-typescript doesn't handle this yes; for now the following can be used as a fix
+;; ;; (defun my-company-transformer (candidates)
+;; ;;   (let ((completion-ignore-case t))
+;; ;;     (all-completions (company-grab-symbol) candidates)))
+
+;; ;; (defun my-js-hook nil
+;; ;;   (make-local-variable 'company-transformers)
+;; ;;   (push 'my-company-transformer company-transformers))
+
+;; (add-hook 'js3-mode-hook 'my-js-hook)
+
+;; ;; enable lsp-javascript-flow
+;; ;;(require 'lsp-javascript-flow)
+;; ;;(add-hook 'js-mode-hook #'lsp-javascript-flow-enable)
+;; ;;(add-hook 'js2-mode-hook #'lsp-javascript-flow-enable) ;; for js2-mode support
+;; (add-hook 'rjsx-mode #'lsp-javascript-flow-enable) ;; for rjsx-mode support
+
+;; ;; enabling typescript-language-server
+;; (require 'lsp-typescript)
+;; ;;(add-hook 'js-mode-hook #'lsp-typescript-enable)
+;; ;;(add-hook 'js2-mode-hook #'lsp-typescript-enable) ;; for js2-mode support
+;; ;;(add-hook 'rjsx-mode #'lsp-typescript-enable) ;; for rjsx-mode support
+
+
 (maybe-require-package 'json-mode)
 (maybe-require-package 'js2-mode)
+(maybe-require-package 'coffee-mode)
+(maybe-require-package 'typescript-mode)
 (maybe-require-package 'prettier-js)
-(maybe-require-package 'tern)
-(maybe-require-package 'tern-auto-complete)
-(maybe-require-package 'auto-complete-config)
 
 (defcustom preferred-javascript-mode
   (first (remove-if-not #'fboundp '(js2-mode js-mode)))
@@ -12,7 +55,7 @@
   :group 'programming
   :options '(js2-mode js-mode))
 
-(defconst preferred-javascript-indent-level 4)
+(defconst preferred-javascript-indent-level 2)
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
@@ -24,8 +67,9 @@
 
 
 ;; js2-mode
+
 ;; Change some defaults: customize them to override
-(setq-default js2-basic-offset 4
+(setq-default js2-basic-offset 2
               js2-bounce-indent-p nil)
 (after-load 'js2-mode
   ;; Disable js2 mode's syntax error highlighting by default...
@@ -38,19 +82,19 @@
       (set (make-local-variable 'js2-mode-show-parse-errors) t)
       (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
   (add-hook 'js2-mode-hook 'sanityinc/disable-js2-checks-if-flycheck-active)
+
   (add-hook 'js2-mode-hook (lambda () (setq mode-name "JS2")))
-  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
-  (add-hook 'js2-mode-hook (lambda () (auto-complete-mode t)))
+
   (after-load 'js2-mode
-    (js2-imenu-extras-setup)
-    (require 'tern-auto-complete)
-    (tern-ac-setup)
-    ))
+    (js2-imenu-extras-setup)))
 
 ;; js-mode
 (setq-default js-indent-level preferred-javascript-indent-level)
+
+
 (add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
+
 
 (when (and (executable-find "ag")
            (maybe-require-package 'xref-js2))
@@ -60,7 +104,20 @@
               (lambda () (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))))
 
 
+
+;;; Coffeescript
+
+(after-load 'coffee-mode
+  (setq coffee-js-mode preferred-javascript-mode
+        coffee-tab-width preferred-javascript-indent-level))
+
+(when (fboundp 'coffee-mode)
+  (add-to-list 'auto-mode-alist '("\\.coffee\\.erb\\'" . coffee-mode)))
+
+;; ---------------------------------------------------------------------------
 ;; Run and interact with an inferior JS via js-comint.el
+;; ---------------------------------------------------------------------------
+
 (when (maybe-require-package 'js-comint)
   (setq inferior-js-program-command "node")
 
@@ -78,10 +135,61 @@
   (dolist (hook '(js2-mode-hook js-mode-hook))
     (add-hook hook 'inferior-js-keys-mode)))
 
+;; ---------------------------------------------------------------------------
 ;; Alternatively, use skewer-mode
+;; ---------------------------------------------------------------------------
+
 (when (maybe-require-package 'skewer-mode)
   (after-load 'skewer-mode
     (add-hook 'skewer-mode-hook
               (lambda () (inferior-js-keys-mode -1)))))
+
+
+
+(when (maybe-require-package 'add-node-modules-path)
+  (after-load 'typescript-mode
+    (add-hook 'typescript-mode-hook 'add-node-modules-path))
+  (after-load 'js2-mode
+    (add-hook 'js2-mode-hook 'add-node-modules-path)))
+
+
+
+
+;; ;; enabling lsp-javascript-typescript
+(maybe-require-package 'lsp-javascript-typescript)
+(require 'lsp-javascript-typescript)
+
+;; ;;(add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
+(add-hook 'js2-mode-hook #'lsp-javascript-typescript-enable)
+;; ;;(add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable) ;; for typescript support
+;; (add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
+
+;; ;;(add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
+;; (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable) ;; for rjsx-mode support
+
+;; ;; NOTE: javascript-typescript-langserver doesn't take into account the completion prefix,
+;; ;; which causes some glitchy completion when using company.
+;; ;; lsp-javascript-typescript doesn't handle this yes; for now the following can be used as a fix
+;; ;; (defun my-company-transformer (candidates)
+;; ;;   (let ((completion-ignore-case t))
+;; ;;     (all-completions (company-grab-symbol) candidates)))
+
+;; ;; (defun my-js-hook nil
+;; ;;   (make-local-variable 'company-transformers)
+;; ;;   (push 'my-company-transformer company-transformers))
+
+;; (add-hook 'js3-mode-hook 'my-js-hook)
+
+;; ;; enable lsp-javascript-flow
+;; ;;(require 'lsp-javascript-flow)
+;; ;;(add-hook 'js-mode-hook #'lsp-javascript-flow-enable)
+;; ;;(add-hook 'js2-mode-hook #'lsp-javascript-flow-enable) ;; for js2-mode support
+;; (add-hook 'rjsx-mode #'lsp-javascript-flow-enable) ;; for rjsx-mode support
+
+;; ;; enabling typescript-language-server
+;; (require 'lsp-typescript)
+;; ;;(add-hook 'js-mode-hook #'lsp-typescript-enable)
+;; ;;(add-hook 'js2-mode-hook #'lsp-typescript-enable) ;; for js2-mode support
+;; ;;(add-hook 'rjsx-mode #'lsp-typescript-enable) ;; for rjsx-mode support
 
 (provide 'init-javascript)
