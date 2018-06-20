@@ -129,6 +129,7 @@ locate PACKAGE."
   (require 'lsp-imenu)
   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu))
 
+
 (use-package lsp-ui
   :after lsp-mode
   :hook (lsp-mode . lsp-ui-mode))
@@ -137,6 +138,8 @@ locate PACKAGE."
   :after (lsp-mode company-mode)
   :custom (company-lsp-enable-recompletion t)
   :config (add-to-list 'company-backends 'company-lsp))
+
+(setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
 
 
 (defun sanityinc/set-tabulated-list-column-width (col-name width)

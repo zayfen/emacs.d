@@ -70,7 +70,7 @@
 (require 'init-hippie-expand)
 (require 'init-company)
 (require 'init-windows)
-(require 'init-sessions)
+;; (require 'init-sessions) ;; stop emacs sessions
 (require 'init-fonts)
 (require 'init-mmm)
 
@@ -91,6 +91,7 @@
 (require 'init-csv)
 (require 'init-erlang)
 (require 'init-javascript)
+;;(require 'init-java);
 (require 'init-typescript)
 (require 'init-php)
 (require 'init-org)
@@ -132,6 +133,8 @@
 
 (require 'init-folding)
 (require 'init-dash)
+
+
 
 ;;(require 'init-twitter)
 ;; (require 'init-mu)
