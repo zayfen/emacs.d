@@ -51,3 +51,5 @@ cookies
 /plantuml.jar
 /vender/
 /magithub
+projectile.cache
+/semanticdb

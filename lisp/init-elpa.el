@@ -139,7 +139,13 @@ locate PACKAGE."
   :custom (company-lsp-enable-recompletion t)
   :config (add-to-list 'company-backends 'company-lsp))
 
-(setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
+
+(setq company-transformers nil )
+(setq company-lsp-async t)
+(setq company-lsp-cache-candidates 'auto)
+(setq company-lsp-enable-snippet t)
+(setq company-lsp-enable-recompletion t)
+
 
 
 (defun sanityinc/set-tabulated-list-column-width (col-name width)

@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table"
+      :major-mode rjsx-mode
+      :tags nil
+      :file "navigator.jsx"
+      :pointmax 1
+      :fsize 0
+      :lastmodtime '(23389 56619 492230 714000)
+      :unmatched-syntax nil))
+  :file "!home!zayafa!workspace!ArtistNest!pages!src!components!Navigator!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

@@ -70,7 +70,7 @@
 (require 'init-hippie-expand)
 (require 'init-company)
 (require 'init-windows)
-;; (require 'init-sessions) ;; stop emacs sessions
+(require 'init-sessions) ;; stop emacs sessions
 (require 'init-fonts)
 (require 'init-mmm)
 
@@ -94,7 +94,7 @@
 ;;(require 'init-java);
 (require 'init-typescript)
 (require 'init-php)
-(require 'init-org)
+;;(require 'init-org)
 (require 'init-nxml)
 (require 'init-html)
 (require 'init-css)
@@ -103,7 +103,7 @@
 (require 'init-python)
 (require 'init-haskell)
 (require 'init-elm)
-(require 'init-purescript)
+;;(require 'init-purescript)
 (require 'init-ruby)
 (require 'init-rails)
 (require 'init-sql)
@@ -113,7 +113,7 @@
 (require 'init-docker)
 (require 'init-terraform)
 (require 'init-vue)
-;;(require 'init-nix)
+(require 'init-nix)
 (maybe-require-package 'nginx-mode)
 
 (require 'init-paredit)

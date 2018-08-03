@@ -1,0 +1,26 @@
+;; Object semanticdb-project-database-file
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table"
+      :major-mode rjsx-mode
+      :tags 
+        '( ("Separator" function (:arguments 
+              ( ("props" variable nil (reparse-symbol FormalParameterList) [112 117]))              ) nil [92 177])
+            ("HeaderGroup" function (:arguments 
+              ( ("props" variable nil (reparse-symbol FormalParameterList) [202 207]))              ) nil [180 350])
+            ("Menus" function (:arguments 
+              ( ("props" variable nil (reparse-symbol FormalParameterList) [369 374]))              ) nil [353 556])
+            ("Menu" function (:arguments 
+              ( ("props" variable nil (reparse-symbol FormalParameterList) [572 577]))              ) nil [557 651])
+            ("Header" function (:arguments 
+              ( ("props" variable nil (reparse-symbol FormalParameterList) [670 675]))              ) nil [653 1180]))          
+      :file "header.jsx"
+      :pointmax 1205
+      :fsize 1228
+      :lastmodtime '(23389 55984 179110 675000)
+      :unmatched-syntax nil))
+  :file "!home!zayafa!workspace!ArtistNest!pages!src!components!Header!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

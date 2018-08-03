@@ -42,6 +42,6 @@
     (add-hook 'company-completion-finished-hook 'sanityinc/page-break-lines-maybe-reenable)
     (add-hook 'company-completion-cancelled-hook 'sanityinc/page-break-lines-maybe-reenable)))
 
-
+(setq company-auto-complete t)
 
 (provide 'init-company)

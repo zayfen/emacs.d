@@ -1,52 +1,10 @@
-;; (maybe-require-package 'json-mode)
-
-;; (maybe-require-package 'js3-mode)
-
-;; (maybe-require-package 'js2-mode)
-
-;; ;;;;;;;;;;;;; No longer use javascript config above ;;;;;;;;;;;;;;;;;;;;
-
-;; ;; enabling lsp-javascript-typescript
-;; (require 'lsp-javascript-typescript)
-
-;; ;;(add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
-;; ;;(add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable) ;; for typescript support
-;; (add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
-
-;; ;;(add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
-;; (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable) ;; for rjsx-mode support
-
-;; ;; NOTE: javascript-typescript-langserver doesn't take into account the completion prefix,
-;; ;; which causes some glitchy completion when using company.
-;; ;; lsp-javascript-typescript doesn't handle this yes; for now the following can be used as a fix
-;; ;; (defun my-company-transformer (candidates)
-;; ;;   (let ((completion-ignore-case t))
-;; ;;     (all-completions (company-grab-symbol) candidates)))
-
-;; ;; (defun my-js-hook nil
-;; ;;   (make-local-variable 'company-transformers)
-;; ;;   (push 'my-company-transformer company-transformers))
-
-;; (add-hook 'js3-mode-hook 'my-js-hook)
-
-;; ;; enable lsp-javascript-flow
-;; ;;(require 'lsp-javascript-flow)
-;; ;;(add-hook 'js-mode-hook #'lsp-javascript-flow-enable)
-;; ;;(add-hook 'js2-mode-hook #'lsp-javascript-flow-enable) ;; for js2-mode support
-;; (add-hook 'rjsx-mode #'lsp-javascript-flow-enable) ;; for rjsx-mode support
-
-;; ;; enabling typescript-language-server
-;; (require 'lsp-typescript)
-;; ;;(add-hook 'js-mode-hook #'lsp-typescript-enable)
-;; ;;(add-hook 'js2-mode-hook #'lsp-typescript-enable) ;; for js2-mode support
-;; ;;(add-hook 'rjsx-mode #'lsp-typescript-enable) ;; for rjsx-mode support
-
-
 (maybe-require-package 'json-mode)
 (maybe-require-package 'js2-mode)
 (maybe-require-package 'coffee-mode)
 (maybe-require-package 'typescript-mode)
 (maybe-require-package 'prettier-js)
+(maybe-require-package 'rjsx-mode)
+
 
 (defcustom preferred-javascript-mode
   (first (remove-if-not #'fboundp '(js2-mode js-mode)))
@@ -153,43 +111,10 @@
     (add-hook 'js2-mode-hook 'add-node-modules-path)))
 
 
-
-
-;; ;; enabling lsp-javascript-typescript
-(maybe-require-package 'lsp-javascript-typescript)
-(require 'lsp-javascript-typescript)
-
-;; ;;(add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
-(add-hook 'js2-mode-hook #'lsp-javascript-typescript-enable)
-;; ;;(add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable) ;; for typescript support
-;; (add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
-
-;; ;;(add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
-;; (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable) ;; for rjsx-mode support
-
-;; ;; NOTE: javascript-typescript-langserver doesn't take into account the completion prefix,
-;; ;; which causes some glitchy completion when using company.
-;; ;; lsp-javascript-typescript doesn't handle this yes; for now the following can be used as a fix
-;; ;; (defun my-company-transformer (candidates)
-;; ;;   (let ((completion-ignore-case t))
-;; ;;     (all-completions (company-grab-symbol) candidates)))
-
-;; ;; (defun my-js-hook nil
-;; ;;   (make-local-variable 'company-transformers)
-;; ;;   (push 'my-company-transformer company-transformers))
-
-;; (add-hook 'js3-mode-hook 'my-js-hook)
-
-;; ;; enable lsp-javascript-flow
-;; ;;(require 'lsp-javascript-flow)
-;; ;;(add-hook 'js-mode-hook #'lsp-javascript-flow-enable)
-;; ;;(add-hook 'js2-mode-hook #'lsp-javascript-flow-enable) ;; for js2-mode support
-;; (add-hook 'rjsx-mode #'lsp-javascript-flow-enable) ;; for rjsx-mode support
-
-;; ;; enabling typescript-language-server
-;; (require 'lsp-typescript)
-;; ;;(add-hook 'js-mode-hook #'lsp-typescript-enable)
-;; ;;(add-hook 'js2-mode-hook #'lsp-typescript-enable) ;; for js2-mode support
-;; ;;(add-hook 'rjsx-mode #'lsp-typescript-enable) ;; for rjsx-mode support
+(add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+(with-eval-after-load 'rjsx-mode
+  (define-key rjsx-mode-map "<" nil)
+  (define-key rjsx-mode-map (kbd "C-d") nil)
+  (define-key rjsx-mode-map ">" nil))
 
 (provide 'init-javascript)
