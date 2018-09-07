@@ -1,3 +1,4 @@
+(require-package 'flycheck-rust)
 (when (maybe-require-package 'rust-mode)
   (when (maybe-require-package 'racer)
     (add-hook 'rust-mode-hook #'racer-mode)

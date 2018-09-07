@@ -26,7 +26,7 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; config org2blog
-(require 'org2blog-autoloads)
+(require-package 'org2blog)
 (setq org2blog/wp-blog-alist
       '(("wordpress"
          :url "http://zayafa.com/xmlrpc.php"

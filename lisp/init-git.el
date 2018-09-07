@@ -1,4 +1,4 @@
-;; TODO: link commits from vc-log to magit-show-commit
+; TODO: link commits from vc-log to magit-show-commit
 ;; TODO: smerge-mode
 (require-package 'git-blamed)
 (require-package 'gitignore-mode)
@@ -18,6 +18,10 @@
 (after-load 'magit
   (define-key magit-status-mode-map (kbd "C-M-<up>") 'magit-section-up)
   (add-hook 'magit-popup-mode-hook 'sanityinc/no-trailing-whitespace))
+
+(when (maybe-require-package 'magit-todos)
+  (after-load 'magit
+    (magit-todos-mode)))
 
 (require-package 'fullframe)
 (after-load 'magit

@@ -5,6 +5,21 @@
 (add-to-list 'load-path (directory-file-name
                          (or (file-name-directory #$) (car load-path))))
 
+
+(autoload 'session-jump-to-last-change "session" "\
+Jump to the position of the last change.
+Without prefix arg, jump successively to previous change positions which
+differ by at least `session-jump-undo-threshold' characters by repeated
+invocation of this command.  With prefix argument 0, jump to end of last
+change.  With numeric prefix argument, jump to start of first change in
+the ARG's undo block in the `buffer-undo-list'.
+
+With non-numeric prefix argument (\\[universal-argument] only), set
+point as oldest change position.  It might change slightly if you jump
+to it due to intermediate insert/delete elements in the
+`buffer-undo-list'.
+
+\(fn &optional ARG)" t nil)
 
 ;;;### (autoloads nil "session" "session.el" (0 0 0 0))
 ;;; Generated autoloads from session.el

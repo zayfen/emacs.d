@@ -1,6 +1,6 @@
 (require 'package)
 
-
+
 ;;; Install into separate package dirs for each Emacs version, to prevent bytecode incompatibility
 (let ((versioned-package-dir
        (expand-file-name (format "elpa-%s.%s" emacs-major-version emacs-minor-version)
@@ -8,17 +8,17 @@
   (setq package-user-dir versioned-package-dir))
 
 
-
+
 ;;; Standard package repositories
-                                        ;(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                                        ;("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
+	(add-to-list 'package-archives (cons "melpa" (concat proto "://marmalade-repo.org/packages/")) t)
+	(add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.milkbox.net/packages/")) t)
   (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
   ;; Official MELPA Mirror, in case necessary.
-  ;;(add-to-list 'package-archives (cons "melpa-mirror" (concat proto "://www.mirrorservice.org/sites/melpa.org/packages/")) t) ;; uncomment it temp
+  (add-to-list 'package-archives (cons "melpa-mirror" (concat proto "://www.mirrorservice.org/sites/melpa.org/packages/")) t)
   (if (< emacs-major-version 24)
       ;; For important compatibility libraries like cl-lib
       (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))
@@ -28,51 +28,28 @@
 
 ;; We include the org repository for completeness, but don't normally
 ;; use it.
-(add-to-list 'package-archives 
-             '("org" . "http://orgmode.org/elpa/"))
-
-
-(defconst sanityinc/no-ssl (and (memq system-type '(windows-nt ms-dos))
-                                (not (gnutls-available-p))))
-
-;;; Also use Melpa for most packages
-(add-to-list 'package-archives
-             `("melpa" . ,(if sanityinc/no-ssl
-                            "http://mirrors.163.com/elpa/melpa/"
-                            "http://mirrors.163.com/elpa/marmalade/"
-                            "http://melpa.org/packages/"
-                            "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"
-                            "https://melpa.org/packages/")))
-
-(unless sanityinc/no-ssl
-  ;; Force SSL for GNU ELPA
-  ;;(setcdr (assoc "gnu" package-archives) "https://elpa.gnu.org/packages/"))
-  (setcdr (assoc "gnu" package-archives) "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/"))
-
-;; NOTE: In case of MELPA problems, the official mirror URL is
-;; https://www.mirrorservice.org/sites/stable.melpa.org/packages/
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
 
 
-
 ;;; On-demand installation of packages
+
+(defvar sanityinc/required-packages nil)
 
 (defun require-package (package &optional min-version no-refresh)
   "Install given PACKAGE, optionally requiring MIN-VERSION.
 If NO-REFRESH is non-nil, the available package lists will not be
 re-downloaded in order to locate PACKAGE."
-  ;;(if (or (package-installed-p package min-version) 1)  ;; fixme: here is (if (package-installed-p package min-version)
-    (if (package-installed-p package min-version)
-      t
-    (if (or (assoc package package-archive-contents) no-refresh)
-        (if (boundp 'package-selected-packages)
-            ;; Record this as a package the user installed explicitly
-            (package-install package nil)
-          (package-install package))
-      (progn
-        (package-refresh-contents)
-        (require-package package min-version t)))))
-
+  (let ((available
+         (or (package-installed-p package min-version)
+             (if (or (assoc package package-archive-contents) no-refresh)
+                 (package-install package)
+               (progn
+                 (package-refresh-contents)
+                 (require-package package min-version t))))))
+    (prog1 available
+      (when (and available (boundp 'package-selected-packages))
+        (add-to-list 'sanityinc/required-packages package)))))
 
 (defun maybe-require-package (package &optional min-version no-refresh)
   "Try to install PACKAGE, and return non-nil if successful.
@@ -86,67 +63,28 @@ locate PACKAGE."
      (message "Couldn't install optional package `%s': %S" package err)
      nil)))
 
-
+
 ;;; Fire up package.el
 
 (setq package-enable-at-startup nil)
 (package-initialize)
 
+;; package.el updates the saved version of package-selected-packages correctly only
+;; after custom-file has been loaded, which is a bug. We work around this by adding
+;; the required packages to package-selected-packages after startup is complete.
+(when (fboundp 'package--save-selected-packages)
+  (require-package 'seq)
+  (add-hook 'after-init-hook
+            (lambda () (package--save-selected-packages
+                   (seq-uniq (append sanityinc/required-packages package-selected-packages))))))
 
-
+
 (require-package 'fullframe)
 (fullframe list-packages quit-window)
 
-
+
 (require-package 'cl-lib)
 (require 'cl-lib)
-
-(require-package 'use-package)
-(require 'use-package)
-
-
-;; (require-package 'lsp-mode)
-;; (require 'lsp-mode)
-
-
-;; Here we'll add the function that was dynamically generated by the
-;; call to lsp-define-stdio-client to the major-mode hook of the
-;; language we want to run it under.
-;;
-;; This function will turn lsp-mode on and call the command given to
-;; start the LSP server.
-;; (add-hook 'prog-major-mode #'lsp-prog-major-mode-enable)
-
-;; (require-package 'lsp-ui)
-;; (require 'lsp-ui)
-;; (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-;; (lsp-ui-mode t)
-
-
-(use-package lsp-mode
-  :defer t
-  :config
-  (require 'lsp-imenu)
-  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu))
-
-
-(use-package lsp-ui
-  :after lsp-mode
-  :hook (lsp-mode . lsp-ui-mode))
-
-(use-package company-lsp
-  :after (lsp-mode company-mode)
-  :custom (company-lsp-enable-recompletion t)
-  :config (add-to-list 'company-backends 'company-lsp))
-
-
-(setq company-transformers nil )
-(setq company-lsp-async t)
-(setq company-lsp-cache-candidates 'auto)
-(setq company-lsp-enable-snippet t)
-(setq company-lsp-enable-recompletion t)
-
-
 
 (defun sanityinc/set-tabulated-list-column-width (col-name width)
   "Set any column with name COL-NAME to the given WIDTH."

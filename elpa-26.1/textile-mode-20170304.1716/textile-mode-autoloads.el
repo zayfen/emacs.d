@@ -6,18 +6,6 @@
                          (or (file-name-directory #$) (car load-path))))
 
 
-;;;### (autoloads nil "textile-mode" "textile-mode.el" (0 0 0 0))
-;;; Generated autoloads from textile-mode.el
-
-(autoload 'textile-mode "textile-mode" "\
-A major mode for editing textile files.
-
-\(fn)" t nil)
-
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "textile-mode" '("textile-")))
-
-;;;***
-
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
