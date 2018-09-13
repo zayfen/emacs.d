@@ -1,9 +1,9 @@
 ;;; undo-tree.el --- Treat undo history as a tree  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2009-2013  Free Software Foundation, Inc
+;; Copyright (C) 2009-2014  Free Software Foundation, Inc
 
 ;; Author: Toby Cubitt <toby-undo-tree@dr-qubit.org>
-;; Version: 0.6.5
+;; Version: 0.6.6
 ;; Keywords: convenience, files, undo, redo, history, tree
 ;; URL: http://www.dr-qubit.org/emacs.php
 ;; Repository: http://www.dr-qubit.org/git/undo-tree.git
@@ -625,24 +625,37 @@
 ;;                       o     x  (undo the undo-in-region)
 ;;
 ;;
-;; In `undo-tree-mode', undo-in-region works similarly: when there's an active
-;; region, undoing only undoes changes that affect that region. However, the
-;; way these undos-in-region are recorded in the undo history is quite
-;; different. In `undo-tree-mode', undo-in-region creates a new branch in the
-;; undo history. The new branch consists of an undo step that undoes some of
-;; the changes that affect the current region, and another step that undoes
-;; the remaining changes needed to rejoin the previous undo history.
+;; In `undo-tree-mode', undo-in-region works much the same way: when there's
+;; an active region, undoing only undoes changes that affect that region. In
+;; `undo-tree-mode', redoing when there's an active region similarly only
+;; redoes changes that affect that region.
+;;
+;; However, the way these undo- and redo-in-region changes are recorded in the
+;; undo history is quite different. The good news is, you don't need to
+;; understand this to use undo- and redo-in-region in `undo-tree-mode' - just
+;; go ahead and use them! They'll probably work as you expect. But if you're
+;; masochistic enough to want to understand conceptually what's happening to
+;; the undo tree as you undo- and redo-in-region, then read on...
+;;
+;;
+;; Undo-in-region creates a new branch in the undo history. The new branch
+;; consists of an undo step that undoes some of the changes that affect the
+;; current region, and another step that undoes the remaining changes needed
+;; to rejoin the previous undo history.
 ;;
 ;;      Previous undo history                Undo-in-region
 ;;
 ;;               o                                o
 ;;               |                                |
 ;;               |                                |
+;;               |                                |
 ;;               o                                o
-;;               |                                |\
+;;               |                                |
+;;               |                                |
+;;               |                                |
+;;               o                                o_
 ;;               |                                | \
-;;               o                                o  x  (undo-in-region)
-;;               |                                |  |
+;;               |                                |  x  (undo-in-region)
 ;;               |                                |  |
 ;;               x                                o  o
 ;;
@@ -655,48 +668,57 @@
 ;;      First undo-in-region                 Second undo-in-region
 ;;
 ;;               o                                o
-;;               |                                |\
+;;               |                                |
+;;               |                                |
+;;               |                                |
+;;               o                                o_
 ;;               |                                | \
-;;               o                                o  x  (undo-in-region)
-;;               |\                               |  |
+;;               |                                |  x  (undo-in-region)
+;;               |                                |  |
+;;               o_                               o  |
 ;;               | \                              |  |
-;;               o  x                             o  o
-;;               |  |                             |  |
-;;               |  |                             |  |
-;;               o  o                             o  o
+;;		 |  x                             |  o
+;;		 |  |                             |  |
+;;		 o  o     			  o  o
 ;;
 ;; Redoing takes you back down the undo tree, as usual (as long as you haven't
 ;; changed the active region after undoing-in-region, it doesn't matter if it
 ;; is still active):
 ;;
 ;;                       o
-;;			 |\
+;;			 |
+;;			 |
+;;			 |
+;;			 o_
 ;;			 | \
-;;			 o  o
+;;			 |  o
 ;;			 |  |
+;;			 o  |
 ;;			 |  |
-;;			 o  o  (redo)
-;;			 |  |
+;;			 |  o  (redo)
 ;;			 |  |
 ;;			 o  x  (redo)
 ;;
 ;;
-;; What about redo-in-region? Obviously, this only makes sense if you have
-;; already undone some changes, so that there are some changes to redo!
-;; Redoing-in-region splits off a new branch of the undo history below your
-;; current location in the undo tree. This time, the new branch consists of a
-;; redo step that redoes some of the redo changes that affect the current
-;; region, followed by all the remaining redo changes.
+;; What about redo-in-region? Obviously, redo-in-region only makes sense if
+;; you have already undone some changes, so that there are some changes to
+;; redo! Redoing-in-region splits off a new branch of the undo history below
+;; your current location in the undo tree. This time, the new branch consists
+;; of a first redo step that redoes some of the redo changes that affect the
+;; current region, followed by *all* the remaining redo changes.
 ;;
 ;;      Previous undo history                Redo-in-region
 ;;
 ;;               o                                o
 ;;               |                                |
 ;;               |                                |
-;;               x                                o
-;;               |                                |\
+;;               |                                |
+;;               x                                o_
 ;;               |                                | \
-;;               o                                o  x  (redo-in-region)
+;;               |                                |  x  (redo-in-region)
+;;               |                                |  |
+;;               o                                o  |
+;;               |                                |  |
 ;;               |                                |  |
 ;;               |                                |  |
 ;;               o                                o  o
@@ -708,19 +730,19 @@
 ;;
 ;;      First redo-in-region                 Second redo-in-region
 ;;
-;;          o                                     o
-;;          |                                     |
-;;          |                                     |
-;;          o                                     o
-;;          |\                                    |\
-;;          | \                                   | \
-;;          o  x  (redo-in-region)                o  o
-;;          |  |                                  |  |
-;;          |  |                                  |  |
-;;          o  o                                  o  x  (redo-in-region)
-;;                                                   |
-;;                                                   |
-;;                                                   o
+;;               o                                 o
+;;               |                                 |
+;;               |                                 |
+;;               |                                 |
+;;               o_                                o_
+;;               | \                               | \
+;;               |  x                              |  o
+;;               |  |                              |  |
+;;               o  |                              o  |
+;;               |  |                              |  |
+;;               |  |                              |  x  (redo-in-region)
+;;               |  |                              |  |
+;;               o  o                              o  o
 ;;
 ;; Note that undo-in-region and redo-in-region only ever add new changes to
 ;; the undo tree, they *never* modify existing undo history. So you can always
@@ -1217,6 +1239,7 @@ in visualizer."
 			     :enable (and undo-tree-mode
 					  (not buffer-read-only)
 					  (not (eq t buffer-undo-list))
+					  (not (eq nil buffer-undo-tree))
 					  (undo-tree-node-previous
 					   (undo-tree-current buffer-undo-tree)))
 			     :help "Undo last operation"))
@@ -1225,6 +1248,7 @@ in visualizer."
 			     :enable (and undo-tree-mode
 					  (not buffer-read-only)
 					  (not (eq t buffer-undo-list))
+					  (not (eq nil buffer-undo-tree))
 					  (undo-tree-node-next
 					   (undo-tree-current buffer-undo-tree)))
 			     :help "Redo last operation")
@@ -1690,13 +1714,13 @@ Comparison is done with `eq'."
 (defun undo-tree-copy-list (undo-list)
   ;; Return a deep copy of first changeset in `undo-list'. Object id's are
   ;; replaced by corresponding objects from `buffer-undo-tree' object-pool.
-  (when undo-list
     (let (copy p)
       ;; if first element contains an object id, replace it with object from
       ;; pool, discarding element entirely if it's been GC'd
-      (while (null copy)
+    (while (and undo-list (null copy))
 	(setq copy
 	      (undo-tree-restore-GC-elts-from-pool (pop undo-list))))
+    (when copy
       (setq copy (list copy)
 	    p copy)
       ;; copy remaining elements, replacing object id's with objects from
@@ -4341,75 +4365,6 @@ specifies `saved', and a negative prefix argument specifies
     (when win
       (balance-windows)
       (shrink-window-if-larger-than-buffer win))))
-
-;;;; ChangeLog:
-
-;; 2013-12-28  Toby S. Cubitt  <tsc25@cantab.net>
-;; 
-;; 	* undo-tree: Update to version 0.6.5.
-;; 
-;; 2012-12-05  Toby S. Cubitt  <tsc25@cantab.net>
-;; 
-;; 	Update undo-tree to version 0.6.3
-;; 
-;; 	* undo-tree.el: Implement lazy tree drawing to significantly speed up 
-;; 	visualization of large trees + various more minor improvements.
-;; 
-;; 2012-09-25  Toby S. Cubitt  <tsc25@cantab.net>
-;; 
-;; 	Updated undo-tree package to version 0.5.5.
-;; 
-;; 	Small bug-fix to avoid hooks triggering an error when trying to save
-;; 	undo history in a buffer where undo is disabled.
-;; 
-;; 2012-09-11  Toby S. Cubitt  <tsc25@cantab.net>
-;; 
-;; 	Updated undo-tree package to version 0.5.4
-;; 
-;; 	Bug-fixes and improvements to persistent history storage.
-;; 
-;; 2012-07-18  Toby S. Cubitt  <tsc25@cantab.net>
-;; 
-;; 	Update undo-tree to version 0.5.3
-;; 
-;; 	* undo-tree.el: Cope gracefully with undo boundaries being deleted
-;; 	 (cf. bug#11774). Allow customization of directory to which undo
-;; 	history is
-;; 	 saved.
-;; 
-;; 2012-05-24  Toby S. Cubitt  <tsc25@cantab.net>
-;; 
-;; 	updated undo-tree package to version 0.5.2
-;; 
-;; 	* undo-tree.el: add diff view feature in undo-tree visualizer.
-;; 
-;; 2012-05-02  Toby S. Cubitt  <tsc25@cantab.net>
-;; 
-;; 	undo-tree.el: Update package to version 0.4
-;; 
-;; 2012-04-20  Toby S. Cubitt  <tsc25@cantab.net>
-;; 
-;; 	undo-tree.el: Update package to version 0.3.4
-;; 
-;; 	* undo-tree.el (undo-list-pop-changeset): fix pernicious bug causing
-;; 	undo history to be lost.
-;; 	(buffer-undo-tree): set permanent-local property.
-;; 	(undo-tree-enable-undo-in-region): add new customization option
-;; 	allowing undo-in-region to be disabled.
-;; 
-;; 2012-01-26  Toby S. Cubitt  <tsc25@cantab.net>
-;; 
-;; 	undo-tree.el: Fixed copyright attribution and Emacs status.
-;; 
-;; 2012-01-26  Toby S. Cubitt  <tsc25@cantab.net>
-;; 
-;; 	undo-tree.el: Update package to version 0.3.3
-;; 
-;; 2011-09-17  Stefan Monnier  <monnier@iro.umontreal.ca>
-;; 
-;; 	Add undo-tree.el
-;; 
-
 
 
 
