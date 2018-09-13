@@ -1,4 +1,3 @@
-(require 'eglot)
 
 (setq auto-mode-alist
       (append '(("SConstruct\\'" . python-mode)
@@ -27,10 +26,9 @@
 						(setq-default tab-width 2)
 						(setq-default python-indent-offset 2)
 						(add-to-list 'write-file-functions 'delete-trailing-whitespace)
-						(flymake-mode nil)
 						))
 
 (setq anaconda-mode-localhost-address "localhost")
-(setq url-proxy-services '(("no_proxy" . "^\\(127.0.0.1\\|localhost\\|10.*\\)")))
+
 
 (provide 'init-python)

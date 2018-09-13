@@ -185,6 +185,8 @@
   (load init-local-file))
 
 
+;;; 不用代理
+(setq url-proxy-services '(("no_proxy" . "^\\(127.0.0.1\\|localhost\\|10.*\\)")))
 
 (provide 'init)
 

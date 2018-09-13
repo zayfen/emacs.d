@@ -14,11 +14,11 @@
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
-	(add-to-list 'package-archives (cons "melpa" (concat proto "://marmalade-repo.org/packages/")) t)
-	(add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.milkbox.net/packages/")) t)
+
+  
   (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
   ;; Official MELPA Mirror, in case necessary.
-  (add-to-list 'package-archives (cons "melpa-mirror" (concat proto "://www.mirrorservice.org/sites/melpa.org/packages/")) t)
+  ;; (add-to-list 'package-archives (cons "melpa-mirror" (concat proto "://www.mirrorservice.org/sites/melpa.org/packages/")) t)
   (if (< emacs-major-version 24)
       ;; For important compatibility libraries like cl-lib
       (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))
@@ -30,6 +30,10 @@
 ;; use it.
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
+
+;; use mirror.tuna.tsinghua.edu.cn
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                        ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
 
 ;;; On-demand installation of packages
