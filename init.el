@@ -70,7 +70,7 @@
 (require 'init-hippie-expand)
 (require 'init-company)
 (require 'init-windows)
-(require 'init-sessions) ;; stop emacs sessions
+;; (require 'init-sessions) ;; stop emacs sessions
 (require 'init-fonts)
 (require 'init-mmm)
 

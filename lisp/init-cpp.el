@@ -36,55 +36,80 @@
 
 
 (require-package 'ggtags)
-(require-package 'cpputils-cmake)
-(require-package 'cquery)
+;; (require-package 'cpputils-cmake)
+;; (require-package 'cquery)
 (require-package 'company-lsp)
 (require-package 'helm-xref)
 (require-package 'function-args)
 
-(require 'cquery)
-(require 'company-lsp)
+;; (require 'cquery)
+;; (require 'company-lsp)
 
-(setq cquery-executable "/usr/local/bin/cquery")
-;; ;; Arch Linux aur/cquery-git aur/cquery
-;; (setq cquery-executable "/usr/bin/cquery")
+;; (setq cquery-executable "/usr/local/bin/cquery")
+;; ;; ;; Arch Linux aur/cquery-git aur/cquery
+;; ;; (setq cquery-executable "/usr/bin/cquery")
 
-;; ;; Log file
-(setq cquery-extra-args '("--log-file=/tmp/cq.log"))
-;; ;; Cache directory, both relative and absolute paths are supported
-(setq cquery-cache-dir ".cquery_cached_index")
-;; ;; Initialization options
-;; (setq cquery-extra-init-params '(:cacheFormat "msgpack"))
-(with-eval-after-load 'projectile
-	(setq projectile-project-root-files-top-down-recurring
-				(append '("compile_commands.json"
-									".cquery")
-								projectile-project-root-files-top-down-recurring)))
+;; ;; ;; Log file
+;; (setq cquery-extra-args '("--log-file=/tmp/cq.log"))
+;; ;; ;; Cache directory, both relative and absolute paths are supported
+;; (setq cquery-cache-dir ".cquery_cached_index")
+;; ;; ;; Initialization options
+;; ;; (setq cquery-extra-init-params '(:cacheFormat "msgpack"))
+;; (with-eval-after-load 'projectile
+;; 	(setq projectile-project-root-files-top-down-recurring
+;; 				(append '("compile_commands.json"
+;; 									".cquery")
+;; 								projectile-project-root-files-top-down-recurring)))
 
-(defun cquery//enable ()
-	(condition-case nil
-			(lsp-cquery-enable)
-		(cquery-xref-find-custom "$cquery/base")
-		(cquery-xref-find-custom "$cquery/callers")
-		(cquery-xref-find-custom "$cquery/derived")
-		(cquery-xref-find-custom "$cquery/vars")
-		;; Alternatively, use lsp-ui-peek interface
-		(lsp-ui-peek-find-custom 'base "$cquery/base")
-		(lsp-ui-peek-find-custom 'callers "$cquery/callers")
-		(lsp-ui-peek-find-custom 'random "$cquery/random") ;; jump to a random declaration
-		(user-error nil)))
+;; (defun cquery//enable ()
+;; 	(condition-case nil
+;; 			(lsp-cquery-enable)
+;; 		(cquery-xref-find-custom "$cquery/base")
+;; 		(cquery-xref-find-custom "$cquery/callers")
+;; 		(cquery-xref-find-custom "$cquery/derived")
+;; 		(cquery-xref-find-custom "$cquery/vars")
+;; 		;; Alternatively, use lsp-ui-peek interface
+;; 		(lsp-ui-peek-find-custom 'base "$cquery/base")
+;; 		(lsp-ui-peek-find-custom 'callers "$cquery/callers")
+;; 		(lsp-ui-peek-find-custom 'random "$cquery/random") ;; jump to a random declaration
+;; 		(user-error nil)))
 
-(use-package cquery
-						 :commands lsp-cquery-enable
-						 :init (add-hook 'c-mode-common-hook #'cquery//enable))
+;; (use-package cquery
+;; 						 :commands lsp-cquery-enable
+;; 						 :init (add-hook 'c-mode-common-hook #'cquery//enable))
 
-(add-hook 'c-mode-common-hook #'cquery//enable)
+;; (add-hook 'c-mode-common-hook #'cquery//enable)
 
-(setq cquery-extra-init-params '(:index (:comments 2) :cacheFormat "msgpack" :completion (:detailedLabel t)))
+;; (setq cquery-extra-init-params '(:index (:comments 2) :cacheFormat "msgpack" :completion (:detailedLabel t)))
 
+;; ;; lsp-ui-doc.el renders comments in a child frame (Emacs >= 26) or inline (< 26).
+;; ;; (setq lsp-ui-doc-include-signature nil)  ; don't include type signature in the child frame
+;; ;; (setq lsp-ui-sideline-show-symbol nil)  ; don't show symbol on the right of info
+
+;; (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
+
+
+
+;;;;;;;;;;;;;;;;;;; use ccls
+(add-to-list 'load-path (expand-file-name "site-list/emacs-ccls" user-emacs-directory))
+(require 'ccls)
+(setq ccls-executable "/home/zayafa/.emacs.d/vendor/ccls/Release/ccls")
+
+(defun ccls//enable ()
+  (condition-case nil
+      (lsp-ccls-enable)
+    (user-error nil)))
+
+(use-package ccls
+  :commands lsp-ccls-enable
+  :init
+  (add-hook 'c-mode-hook #'ccls//enable)
+  (add-hook 'c++-mode-hook #'ccls//enable)
+  )
+;; Also see lsp-project-whitelist lsp-project-blacklist ccls-root-matchers
 ;; lsp-ui-doc.el renders comments in a child frame (Emacs >= 26) or inline (< 26).
-;; (setq lsp-ui-doc-include-signature nil)  ; don't include type signature in the child frame
-;; (setq lsp-ui-sideline-show-symbol nil)  ; don't show symbol on the right of info
+(setq lsp-ui-doc-include-signature nil)  ; don't include type signature in the child frame
+(setq lsp-ui-sideline-show-symbol nil)  ; don't show symbol on the right of info
 
 (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
 
