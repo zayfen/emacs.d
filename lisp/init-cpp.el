@@ -91,21 +91,21 @@
 
 
 ;;;;;;;;;;;;;;;;;;; use ccls
-(add-to-list 'load-path (expand-file-name "site-list/emacs-ccls" user-emacs-directory))
+;;(add-to-list 'load-path (expand-file-name "site-list/emacs-ccls" user-emacs-directory))
 (require 'ccls)
 (setq ccls-executable "/home/zayafa/.emacs.d/vendor/ccls/Release/ccls")
 
-(defun ccls//enable ()
-  (condition-case nil
-      (lsp-ccls-enable)
-    (user-error nil)))
+;; (defun ccls//enable ()
+;;   (condition-case nil
+;;       (lsp-ccls-enable)
+;;     (user-error nil)))
 
-(use-package ccls
-  :commands lsp-ccls-enable
-  :init
-  (add-hook 'c-mode-hook #'ccls//enable)
-  (add-hook 'c++-mode-hook #'ccls//enable)
-  )
+;; (use-package ccls
+;;   :commands lsp-ccls-enable
+;;   :init
+;;   (add-hook 'c-mode-hook #'ccls//enable)
+;;   (add-hook 'c++-mode-hook #'ccls//enable)
+;;   )
 ;; Also see lsp-project-whitelist lsp-project-blacklist ccls-root-matchers
 ;; lsp-ui-doc.el renders comments in a child frame (Emacs >= 26) or inline (< 26).
 (setq lsp-ui-doc-include-signature nil)  ; don't include type signature in the child frame
