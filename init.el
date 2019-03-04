@@ -113,7 +113,7 @@
 (require 'init-docker)
 (require 'init-terraform)
 (require 'init-vue)
-(require 'init-nix)
+;;(require 'init-nix)
 (maybe-require-package 'nginx-mode)
 
 (require 'init-paredit)
