@@ -4,3 +4,6 @@
 [submodule "vendor/cquery"]
 	path = vendor/cquery
 	url = https://github.com/cquery-project/cquery.git
+[submodule "vendor/ccls"]
+	path = vendor/ccls
+	url = https://github.com/MaskRay/ccls.git
