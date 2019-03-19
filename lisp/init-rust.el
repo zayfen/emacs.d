@@ -51,9 +51,9 @@
 ;;                                 (mapconcat (lambda (x) (format "${%s}" x)) it ", ")))))
 ;;       (concat "(" (or snippet "$1") ")$0"))))
 
-(with-eval-after-load 'lsp-mode
-  (require 'lsp-rust)
-  (add-hook 'rust-mode-hook #'lsp-rust-enable))
+;;(with-eval-after-load 'lsp-mode
+  ;;(require 'lsp-rust)
+  ;;(add-hook 'rust-mode-hook #'lsp-rust-enable))
 
 
 (provide 'init-rust)
