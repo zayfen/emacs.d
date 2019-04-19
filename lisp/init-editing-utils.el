@@ -97,7 +97,7 @@
 
 
 (require-package 'undo-tree)
-(add-hook 'after-init-hook 'global-undo-tree-mode)
+;;(add-hook 'after-init-hook 'global-undo-tree-mode)
 (after-load 'undo-tree
   (diminish 'undo-tree-mode))
 
